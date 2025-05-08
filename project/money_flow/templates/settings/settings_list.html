@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} Настройки {% endblock title %}
+
+{% block content %}
+<h2>Статусы</h2>
+<ul>
+    {% for status in statuses %}
+        <li>{{ status.name }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'status_create' %}">➕ Добавить статус</a>
+
+<hr>
+
+<h2>Типы</h2>
+<ul>
+    {% for t in types %}
+        <li>{{ t.name }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'type_create' %}">➕ Добавить тип</a>
+
+<hr>
+
+<h2>Категории и подкатегории</h2>
+<ul>
+    {% for category in categories %}
+        {% if not category.parent %}
+            <li>
+                <strong>{{ category.name }}</strong> (Тип: {{ category.type.name }})
+                <ul>
+                    {% for sub in category.subcategory.all %}
+                        <li>{{ sub.name }} (Тип: {{ sub.type.name }})</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<a href="{% url 'category_create' %}">➕ Добавить категорию</a>
+{% endblock %}

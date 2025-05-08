@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} Создание {% endblock %}
+
+{% block content %}
+<h1 class="mb-5 text-center">Создание</h1>
+<form method="post">
+    <div>
+    {% include 'partial/form.html' with button_text='Создать' %}
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const parentSelect = document.getElementById('id_parent');
+        const typeField = document.getElementById('id_type');
+        const typeWrapper = typeField.closest('.type-hide');
+
+        console.log(typeWrapper)
+
+        function toggleTypeField() {
+            if (parentSelect.value) {
+                typeWrapper.style.display = 'none';
+                typeField.removeAttribute('required');
+
+            } else {
+                typeWrapper.style.display = '';
+                typeField.setAttribute('required');
+            }
+        }
+
+        parentSelect.addEventListener('change', toggleTypeField);
+
+        toggleTypeField(); 
+    });
+</script>
+
+{% endblock extra_js %}

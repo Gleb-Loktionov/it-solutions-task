@@ -1,0 +1,25 @@
+{% csrf_token %}
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="w-100" style="max-width: 400px;">
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+            <div class="mb-3 type-hide">
+                <label class="form-label">{{ field.label }} 
+                {% if field.field.required %}
+                    <span class="text-danger">*</span> 
+                {% endif %}
+                </label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success w-100">{{ button_text }}</button>
+    </div>
+</div>

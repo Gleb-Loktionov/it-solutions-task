@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Создание записи {% endblock %}
+
+{% block content %}
+<h1 class="mb-5 text-center">Создание записи</h1>
+<form action="{% url 'note_create' %}" method="post">
+    <div>
+    {% include 'partial/form.html' with button_text='Создать' %}
+    </div>
+</form>
+{% endblock %}
