@@ -33,7 +33,7 @@ class NoteForm(forms.ModelForm):
 
         self.fields['category'].required = False
         self.fields['category'].queryset = Category.objects.none()
-
+        
         if 'main_category' in self.data:
             try:
                 parent_id = int(self.data.get('main_category'))
@@ -58,7 +58,8 @@ class NoteForm(forms.ModelForm):
         if not category:
             cleaned_data['category'] = main_category
         
-        if category.type != type:
+        
+        if cleaned_data['category'].type != type:
             raise forms.ValidationError('Тип который вы указали отличается от типа категории')
         
         return cleaned_data
