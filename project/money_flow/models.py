@@ -49,7 +49,7 @@ class Note(models.Model):
     total_sum = models.DecimalField(max_digits=12, decimal_places=2,validators=[MinValueValidator(0.0)], 
                                     verbose_name="Сумма")
     comment = models.TextField(max_length=300, null=True, blank=True, verbose_name='Комментарий')
-    created_at = models.DateField(blank=True, default=timezone.now)
+    created_at = models.DateField(blank=True, default=timezone.localdate)
     
     def __str__(self):
         return f'{self.category} - {self.total_sum}'

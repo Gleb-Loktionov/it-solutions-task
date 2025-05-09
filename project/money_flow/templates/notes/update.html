@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %} Создание записи {% endblock %}
+{% block title %} Обновление записи {% endblock %}
 
 {% block content %}
-<h1 class="mb-5 text-center">Создание записи</h1>
-<form action="{% url 'note_create' %}" method="post">
+<h1 class="mb-5 text-center">Обновление записи</h1>
+<form action="{% url 'note_update' note.id %}" method="post">
     <div>
-    {% include 'partial/form.html' with button_text='Создать' %}
+    {% include 'partial/form.html' with button_text='Изменить' %}
     </div>
 </form>
 {% endblock %}
+
 
 {% block extra_js %}
 <script>

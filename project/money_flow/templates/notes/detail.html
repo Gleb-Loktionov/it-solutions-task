@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Детали записи{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Детали записи</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Категория: {{ note.category.name }}</h5>
+            <p class="card-text"><strong>Статус:</strong> {{ note.status.name }}</p>
+            <p class="card-text"><strong>Тип:</strong> {{ note.type.name }}</p>
+            <p class="card-text"><strong>Сумма:</strong> {{ note.total_sum }} ₸</p>
+            <p class="card-text"><strong>Комментарий:</strong> {{ note.comment|default:"—" }}</p>
+            <p class="card-text"><strong>Дата создания:</strong> {{ note.created_at }}</p>
+            <p class="card-text"><strong>Пользователь:</strong> {{ note.user.email }}</p>
+        </div>
+    </div>
+
+    <a href="{% url 'main' %}" class="btn btn-secondary mt-3">⬅ Назад</a>
+</div>
+{% endblock %}

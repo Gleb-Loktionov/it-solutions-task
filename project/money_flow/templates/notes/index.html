@@ -6,6 +6,40 @@
 
 <div class="container mt-5">
     <h2 class="mb-4">Список записей</h2>
+    <form method="get">
+      <input type="date" name="date_from" value="{{ request.GET.date_from }}">
+      <input type="date" name="date_to" value="{{ request.GET.date_to }}">
+  
+      <select name="status">
+        <option value="">Все статусы</option>
+        {% for s in statuses %}
+            <option value="{{ s.id }}" {% if request.GET.status == s.id|stringformat:"s" %}selected{% endif %}>{{ s.name }}</option>
+        {% endfor %}
+    </select>
+  
+      <select name="type">
+          <option value="">Все типы</option>
+          {% for t in types %}
+              <option value="{{ t.id }}" {% if request.GET.type == t.id|stringformat:"s" %}selected{% endif %}>{{ t.name }}</option>
+          {% endfor %}
+      </select>
+  
+      <select name="main_category">
+          <option value="">Все категории</option>
+          {% for cat in main_categories %}
+              <option value="{{ cat.id }}" {% if request.GET.main_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+          {% endfor %}
+      </select>
+  
+      <select name="category">
+          <option value="">Все подкатегории</option>
+          {% for cat in categories %}
+              <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+          {% endfor %}
+      </select>
+  
+      <button type="submit">Применить</button>
+  </form>
 
     <table class="table table-bordered table-striped table-hover">
       <thead class="table-dark">
@@ -13,9 +47,11 @@
           <th>Статус</th>
           <th>Тип</th>
           <th>Категория</th>
+          <th>Подкатегория</th>
           <th>Сумма</th>
           <th>Комментарий</th>
           <th>Создано</th>
+          <th>Действия</th>
         </tr>
       </thead>
       <tbody>
@@ -23,10 +59,41 @@
           <tr>
             <td>{{ note.status }}</td>
             <td>{{ note.type }}</td>
+            {% if note.category.parent %}
+            <td>{{ note.category.parent }}</td>
+            <td>{{ note.category}}</td>
+            {% else %}
             <td>{{ note.category }}</td>
+            <td>—</td>
+            {% endif %}
             <td>{{ note.total_sum }}</td>
             <td>{{ note.comment|default:"—" }}</td>
-            <td>{{ note.created_at|date:"d.m.Y H:i" }}</td>
+            <td>{{ note.created_at|date:"d.m.Y" }}</td>
+            <td>
+              <a href="{% url 'note_update' note.id %}" class="btn btn-sm btn-primary">✏️</a>
+              <a href="{% url 'note_delete' note.id %}" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ note.id }}">🗑️</a>
+
+            <div class="modal fade" id="deleteModal{{ note.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ note.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form method="post" action="{% url 'note_delete' note.id %}">
+                      {% csrf_token %}
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ note.id }}">Подтверждение удаления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                      </div>
+                      <div class="modal-body">
+                        Вы уверены, что хотите удалить объявление <strong>"{{ note }}"</strong>?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </td>
           </tr>
         {% empty %}
           <tr>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Настройки {% endblock title %}
 
@@ -6,7 +7,32 @@
 <h2>Статусы</h2>
 <ul>
     {% for status in statuses %}
-        <li>{{ status.name }}</li>
+        <li>
+            {{ status.name }}
+            <a href="{% url 'status_update' status.id %}" class="btn btn-sm btn-outline-primary">✏️</a>
+            <a href="{% url 'status_delete' status.id %}" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ status.id }}">🗑️</a>
+
+            <div class="modal fade" id="deleteModal{{ status.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ status.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form method="post" action="{% url 'status_delete' status.id %}">
+                      {% csrf_token %}
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ status.id }}">Подтверждение удаления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                      </div>
+                      <div class="modal-body">
+                        Вы уверены, что хотите удалить объявление <strong>"{{ status.name }}"</strong>?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+        </li>
     {% endfor %}
 </ul>
 <a href="{% url 'status_create' %}">➕ Добавить статус</a>
@@ -16,7 +42,32 @@
 <h2>Типы</h2>
 <ul>
     {% for t in types %}
-        <li>{{ t.name }}</li>
+        <li>
+            {{ t.name }}
+            <a href="{% url 'type_update' t.id %}" class="btn btn-sm btn-outline-primary">✏️</a>
+            <a href="{% url 'type_delete' t.id %}" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ t.id }}">🗑️</a>
+
+            <div class="modal fade" id="deleteModal{{ t.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ t.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form method="post" action="{% url 'type_delete' t.id %}">
+                      {% csrf_token %}
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ t.id }}">Подтверждение удаления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                      </div>
+                      <div class="modal-body">
+                        Вы уверены, что хотите удалить объявление <strong>"{{ t.name }}"</strong>?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+        </li>
     {% endfor %}
 </ul>
 <a href="{% url 'type_create' %}">➕ Добавить тип</a>
@@ -29,9 +80,57 @@
         {% if not category.parent %}
             <li>
                 <strong>{{ category.name }}</strong> (Тип: {{ category.type.name }})
+                <a href="{% url 'category_update' category.id %}" class="btn btn-sm btn-outline-primary">✏️</a>
+                <a href="{% url 'category_delete' category.id %}" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ category.id }}">🗑️</a>
+
+            <div class="modal fade" id="deleteModal{{ category.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ category.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form method="post" action="{% url 'category_delete' category.id %}">
+                      {% csrf_token %}
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ category.id }}">Подтверждение удаления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                      </div>
+                      <div class="modal-body">
+                        Вы уверены, что хотите удалить объявление <strong>"{{ category.name }}"</strong>?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
                 <ul>
                     {% for sub in category.subcategory.all %}
-                        <li>{{ sub.name }} (Тип: {{ sub.type.name }})</li>
+                        <li>
+                            {{ sub.name }} (Тип: {{ sub.type.name }})
+                            <a href="{% url 'category_update' sub.id %}" class="btn btn-sm btn-outline-primary">✏️</a>
+                            <a href="{% url 'category_delete' sub.id %}" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ sub.id }}">🗑️</a>
+
+            <div class="modal fade" id="deleteModal{{ sub.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ sub.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form method="post" action="{% url 'category_delete' sub.id %}">
+                      {% csrf_token %}
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ sub.id }}">Подтверждение удаления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                      </div>
+                      <div class="modal-body">
+                        Вы уверены, что хотите удалить объявление <strong>"{{ sub.name }}"</strong>?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+                        </li>
                     {% endfor %}
                 </ul>
             </li>

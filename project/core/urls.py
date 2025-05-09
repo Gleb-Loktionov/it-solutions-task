@@ -17,11 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from money_flow.views import NoteList
+from money_flow.views import NoteListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
     path('note/', include('money_flow.urls')),
-    path('', NoteList.as_view(), name='main')
+    path('', NoteListView.as_view(), name='main')
 ]
