@@ -37,6 +37,11 @@ cd project
 python manage.py migrate
 ```
 
+## Создание супер-пользователя
+
+```bash
+python manage.py createsuperuser
+```
 
 ## Запуск приложения
 

@@ -25,10 +25,7 @@ class UserRegisterView(AuthSuccessUrlMixin, FormView):
     form_class = RegisterForm
 
     def form_valid(self, form):
-        user = form.save(commit=False)
-        user.is_superuser = True
-        user.is_staff = True
-        user.save()
+        user = form.save()
         login(self.request, user)
         return redirect(self.get_success_url())
 

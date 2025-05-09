@@ -53,9 +53,17 @@ class NoteForm(forms.ModelForm):
         cleaned_data = super().clean()
         main_category = cleaned_data.get('main_category')
         category = cleaned_data.get('category')
+        type = cleaned_data.get('type')
         
         if not category:
             cleaned_data['category'] = main_category
+        
+        if category.type != type:
+            raise forms.ValidationError('Тип который вы указали отличается от типа категории')
+        
+        return cleaned_data
+        
+        
     
 
 class StatusForm(forms.ModelForm):

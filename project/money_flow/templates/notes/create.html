@@ -27,7 +27,6 @@
     categorySelect.addEventListener("change", function () {
         const categoryId = this.value;
 
-        // Очистка + добавление пустого выбора
         subcategorySelect.innerHTML = '<option value="">---------</option>';
 
         if (!categoryId) {
